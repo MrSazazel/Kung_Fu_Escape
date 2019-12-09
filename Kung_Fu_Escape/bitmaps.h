@@ -418,6 +418,24 @@ int displayMiddleLowTiles[10];
 int displayMiddleHighTiles[10];
 int displayCeilingTiles[10];                   
 
+//Level tiles arrays
+int displayTiles[9];
+int level1Tiles[9] = {6, 11, 17, 18, 11, 12, 0, 6, -96};   //0:floor random range low, 1:floor random range high, 2:middle low random range low, 3:middle low random range high, 4:blank tile, 5:spaced decorative tile middle high, 6:range low for celing tiles, 7:range high for celing tiles, 8:middle low drawing frequency variable
+int level2Tiles[9] = {18, 23, 23, 30, 11, 11, 31, 36, -32}; 
+int level3Tiles[9] = {36, 37, 11, 11, 11, 12, 37, 38, -64};
+int level4Tiles[9] = {37, 38, 11, 11, 11, 12, 37, 38, -64};
+int level5Tiles[9] = {37, 38, 17, 18, 11, 11, 31, 36, -64};
+
+//Level tile pointer array
+int *levelTilePointer[] = 
+{
+  level1Tiles,
+  level2Tiles,
+  level3Tiles,
+  level4Tiles,
+  level5Tiles 
+};
+
 
 //Run Animation
 unsigned char const Run0[] PROGMEM =
