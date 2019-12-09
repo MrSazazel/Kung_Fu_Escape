@@ -63,8 +63,7 @@ int middleLowTileY = 32;
 int floorTileY = 48;
 int ceilingTileX = 0;
 int ceilingTileY = 0;
-int jumpUpHeight = 8;
-int runJumpHeight = 4;
+
 int playerSpeed = 2;
 int gameState = 0;
 int level = 1;
@@ -316,6 +315,11 @@ void LevelScreen()
     if (level == 6)
     {
       gameState = GAME_FINISH;
+    }
+
+    for (int i = 0; i < 9 ; i++)    //Copy levelTile array to the displayTile array for the DrawLevel() function
+    {
+      displayTiles[i] = levelTilePointer[level-1][i];
     }
   
   if (arduboy.pressed(A_BUTTON) || arduboy.pressed(B_BUTTON))
@@ -1167,6 +1171,7 @@ if (arduboy.collide(playerRect, dog3Rect))              // Check for collision a
 
 void DrawLevel()
 { 
+  
   // When screen has scrolled one tile over
     if (bgX < -15)
     { 
@@ -1178,121 +1183,36 @@ void DrawLevel()
         displayMiddleHighTiles[x] = displayMiddleHighTiles[x+1];
         displayCeilingTiles[x] = displayCeilingTiles[x+1];
       }
-    if (level == 1)
-      {
-          // Draw upcomming tiles
-          displayFloorTiles[8] = dungeonTileMap[random(6, 11)];
-          displayCeilingTiles[8] = dungeonTileMap[random(5)];
   
-          if (spawnX % -64 == 0)
-          {
-            displayMiddleHighTiles[8] = dungeonTileMap[12];       
-          }
-          else
-          {
-            displayMiddleHighTiles[8] = dungeonTileMap[11];     
-          } 
-          if (spawnX % -96 == 0)
-          {
-            displayMiddleLowTiles[8] = dungeonTileMap[17];
-          }
-          else
-          {
-            displayMiddleLowTiles[8] = dungeonTileMap[11];
-          }
-        
-        if (levelProg > 59)   //once level nears end draw exit
+        // Draw upcomming tiles
+        displayFloorTiles[8] = dungeonTileMap[random(displayTiles[0], displayTiles[1])];
+        displayCeilingTiles[8] = dungeonTileMap[random(displayTiles[6], displayTiles[7])];
+  
+        if (spawnX % -64 == 0)          //Spacing out the decorative tiles using modulus
         {
-          DrawExit(1);
+          displayMiddleHighTiles[8] = dungeonTileMap[displayTiles[5]];       
         }
-      }
-
-      if (level == 2)
+        else
+        {
+          displayMiddleHighTiles[8] = dungeonTileMap[displayTiles[4]];     
+        }
+        
+        if (spawnX % displayTiles[8] == 0)          //Spacing out the decorative tiles using modulus
+        {
+          displayMiddleLowTiles[8] = dungeonTileMap[random(displayTiles[2], displayTiles[3])];
+        }
+        else
+        {
+          displayMiddleLowTiles[8] = dungeonTileMap[displayTiles[4]];
+        }
+        
+      if (levelProg > 59)   //once level nears end draw exit
       {
-        //Draw upcomming tiles
-        displayFloorTiles[8] = dungeonTileMap[random(18, 23)];
-        displayCeilingTiles[8] = dungeonTileMap[random(31, 36)];
-        
-        if (spawnX % -32 == 0)
-        {
-          displayMiddleLowTiles[8] = dungeonTileMap[random(23, 30)];
-          
-        }
-        else
-        {
-          displayMiddleLowTiles[8] = dungeonTileMap[11];      
-        }
-
-        if (levelProg > 59)  //once level nears end draw exit
+        if ( level < 5)
         {
           DrawExit(1);
         }
-     }
-
-      if (level == 3)
-      {
-        //Draw upcomming tiles
-        displayFloorTiles[8] = dungeonTileMap[36];
-        displayCeilingTiles[8] = dungeonTileMap[37];
-        displayMiddleLowTiles[8] = dungeonTileMap[11];
-        
-        if (spawnX % -64 == 0)
-        {
-          displayMiddleHighTiles[8] = dungeonTileMap[12];
-          
-        }
-        else
-        {
-          displayMiddleHighTiles[8] = dungeonTileMap[11];      
-        }
-
-               if (levelProg > 59)  //once level nears end draw exit
-        {
-          DrawExit(1);
-        }
-     }
-
-     if (level == 4)
-     {
-      //Draw upcomming tiles
-        displayFloorTiles[8] = dungeonTileMap[37];
-        displayCeilingTiles[8] = dungeonTileMap[37];
-        displayMiddleLowTiles[8] = dungeonTileMap[11];
-        
-        if (spawnX % -64 == 0)
-        {
-          displayMiddleHighTiles[8] = dungeonTileMap[12];
-          
-        }
-        else
-        {
-          displayMiddleHighTiles[8] = dungeonTileMap[11];      
-        }
-
-               if (levelProg > 59)  //once level nears end draw exit
-        {
-          DrawExit(1);
-        }
-     }
-
-      if (level == 5)
-      {
-        //Draw upcomming tiles
-        displayFloorTiles[8] = dungeonTileMap[37];
-        displayCeilingTiles[8] = dungeonTileMap[random(31, 36)];
-        displayMiddleHighTiles[8] = dungeonTileMap[11];
-        
-        if (spawnX % -64 == 0)
-        {
-          displayMiddleLowTiles[8] = dungeonTileMap[17];
-          
-        }
-        else
-        {
-          displayMiddleLowTiles[8] = dungeonTileMap[11];      
-        }
-
-               if (levelProg > 59)  //once level nears end draw exit
+        else 
         {
           DrawExit(2);
         }
